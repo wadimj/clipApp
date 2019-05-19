@@ -11,31 +11,17 @@ class Upload extends React.Component {
     };
   }
 
-  /*async submit(e) {
-    e.preventDefault();
-
-    const url = '/api/SampleData/Upload';
-    const formData = new FormData();
-    formData.append('body', this.state.file);
-    const config = {
-      headers: {
-        'content-type': 'multipart/form-data',
-      },
-    };
-    return post(url, formData, config);
-  }*/
-
   submit(event){
     event.preventDefault();
     var self = this;
-    var apiBaseUrl =  "/api/SampleData/Upload";
+    var apiBaseUrl =  "/api/Upload/Video";
     if(this.state.file){
         let f = new FormData();
         f.append("file",this.state.file )
         axios.post(apiBaseUrl, f, {
                headers: {'Content-Type': 'multipart/form-data'}
         });
-        alert("File upload completed");
+        alert("File upload started");
     }
     else{
         alert("Please select files first");
@@ -50,7 +36,7 @@ class Upload extends React.Component {
     return (
       <form onSubmit={e => this.submit(e)}>
         <h1>File Upload</h1>
-        <input type="file" onChange={e => this.setFile(e)} />
+        <input type="file" accept="video/*" onChange={e => this.setFile(e)} />
         <button type="submit">Upload</button>
       </form>
     );

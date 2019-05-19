@@ -52,24 +52,5 @@ namespace newClipApp.Controllers
                 }
             }
         }
-
-        [HttpPost("[action]")]
-        [RequestFormLimits(MultipartBodyLengthLimit = 209715200)]
-        [RequestSizeLimit(209715200)]
-        public async Task<IActionResult> Upload(FileUploadViewModel model) {
-            var file = model.File;
-
-            if (file.Length > 0) {
-                string path = Path.Combine(_env.ContentRootPath, "uploads");
-                using (var fs = new FileStream(Path.Combine(path, file.FileName), FileMode.Create))
-                {
-                        await file.CopyToAsync(fs);
-                }
-
-                model.source = $"/uploadFiles{file.FileName}";
-                model.Extension = Path.GetExtension(file.FileName).Substring(1);
-            }
-            return BadRequest();
-        }
     }
 }
