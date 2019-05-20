@@ -16,22 +16,17 @@ export default props => (
       <Nav>
         <LinkContainer to={'/'} exact>
           <NavItem>
-            <Glyphicon glyph='home' /> Home
+            <Glyphicon glyph='list' /> Home
           </NavItem>
         </LinkContainer>
-        <LinkContainer to={'/counter'}>
+        <LinkContainer to={'/player'}>
           <NavItem>
-            <Glyphicon glyph='education' /> Counter
-          </NavItem>
-        </LinkContainer>
-        <LinkContainer to={'/fetchdata'}>
-          <NavItem>
-            <Glyphicon glyph='th-list' /> Fetch data
+            <Glyphicon glyph='play' /> Player
           </NavItem>
         </LinkContainer>
         <LinkContainer to={'/upload'}>
           <NavItem>
-            <Glyphicon glyph='th-list' /> Upload
+            <Glyphicon glyph='upload' /> Upload
           </NavItem>
         </LinkContainer>
       </Nav>

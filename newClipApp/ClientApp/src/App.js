@@ -1,16 +1,14 @@
 ﻿import React from 'react';
 import { Route } from 'react-router';
 import Layout from './components/Layout';
-import Home from './components/Home';
-import Counter from './components/Counter';
-import FetchData from './components/FetchData';
-import Upload from './components/Upload';
+import Home from './containers/Home/Home';
+import Upload from './containers/Upload/Upload';
+import Player from './containers/Player/Player';
 
 export default () => (
   <Layout>
     <Route exact path='/' component={Home} />
-    <Route path='/counter' component={Counter} />
-    <Route path='/fetchdata/:startDateIndex?' component={FetchData} />
+    <Route exact path='/player' component={Player} />
     <Route path='/upload' component={Upload} />
   </Layout>
 );

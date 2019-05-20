@@ -1,6 +1,8 @@
 
 import React from 'react'
 import axios from 'axios';
+import './Upload.css';
+import Header from './../../components/Header/Header';
 
 class Upload extends React.Component {
   constructor(props) {
@@ -34,11 +36,13 @@ class Upload extends React.Component {
 
   render() {
     return (
+      <div className="container">
+          <Header title="File Upload"/>
       <form onSubmit={e => this.submit(e)}>
-        <h1>File Upload</h1>
         <input type="file" accept="video/*" onChange={e => this.setFile(e)} />
         <button type="submit">Upload</button>
       </form>
+      </div>
     );
   }
 }
