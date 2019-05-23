@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using newClipApp.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace newClipApp
 {
@@ -26,13 +28,15 @@ namespace newClipApp
             {
                 x.MultipartBodyLengthLimit = 209715200;
             });
-            //services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/build";
             });
+
+            services.AddDbContext<AppContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
+            services.AddScoped<IClipRepository, ClipRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
