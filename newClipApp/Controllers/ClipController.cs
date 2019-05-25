@@ -24,7 +24,7 @@ namespace newClipApp.Controllers
             _clipRepository = clipRepository;
         }
 
-        [HttpGet("/")]
+        [HttpGet]
         public IActionResult Index()
         {
             var clips = _clipRepository.FindAll();

@@ -16,16 +16,18 @@ namespace newClipApp.Controllers
     public class UploadController : Controller
     {
         private readonly IHostingEnvironment _env;
+        private IClipRepository _clipRepository;
 
-        public UploadController(IHostingEnvironment env)
+        public UploadController(IHostingEnvironment env, IClipRepository clipRepository)
         {
             _env = env;
+            _clipRepository = clipRepository;
         }
 
         [HttpPost("[action]")]
         [RequestFormLimits(MultipartBodyLengthLimit = 209715200)]
         [RequestSizeLimit(209715200)]
-        public async Task<IActionResult> Video(FileUploadViewModel model) {
+        public async Task<IActionResult> Video(Clip model) {
             var file = model.File;
 
             if (file.Length > 0) {
@@ -36,9 +38,14 @@ namespace newClipApp.Controllers
                         await file.CopyToAsync(fs);
                 }
 
-                model.Source = $"/uploads/{file.FileName}";
-                model.Extension = Path.GetExtension(file.FileName).Substring(1);
+                model.FilePath = $"/uploads/{file.FileName}";
+                _clipRepository.Create(model);
+                _clipRepository.Save();
+
+                return Ok(model);
             }
+
+           
             return BadRequest();
         }
     }
