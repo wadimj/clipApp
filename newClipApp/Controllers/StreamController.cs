@@ -24,8 +24,8 @@ namespace newClipApp.Controllers
             _env = env;
         }
 
-        [HttpGet]
-        public IActionResult Stream()
+        [HttpGet("{id}")]
+        public IActionResult Stream(int id)
         {
             string uploadDir = Path.Combine(_env.ContentRootPath, "uploads");
             var path = Path.Combine(uploadDir, "sample.mp4");
