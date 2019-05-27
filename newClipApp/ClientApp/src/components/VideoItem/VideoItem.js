@@ -1,18 +1,22 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 import './VideoItem.css';
 import videoImg from './../../defaultvideo.jpeg';
 
 const videoItem = (props) => {
+
+        const thumbnail = props.video.thumbnail ? props.video.thumbnail : videoImg;
         return(
-        <div className="videoItem" onClick={ () => props.clicked(props.video.Id)}>
-                <img  src={videoImg} alt="props.video.name" />
+        <Link to={'/player/'+ props.video.clipId}>
+        <div className="videoItem">
+                <img  src={thumbnail} alt={props.video.name}/>
                 <div>
-                <p>Name</p>
-                <p>Date: 20.05.2019</p>
-                <p>Time</p>
+                        <p><strong>{props.video.name}</strong></p>
+                        <p>{props.video.keywords}</p>
                 </div>
                 
         </div>
+        </Link>
 );
         };
 

@@ -1,19 +1,61 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+
+import axios from 'axios';
 import './Home.css';
 import Header from './../../components/Header/Header';
 import VideoItem from './../../components/VideoItem/VideoItem';
 import SearchBox from './../../components/SearchBox/SearchBox';
+import Loader from './../../components/Loader/Loader';
 
 const home = props => {
-    const [videos, setVideos] = useState([1,2,3,4]);
+    const [videos, setVideos] = useState([
+        /*{
+            ClipId:1,
+            Name: "Clip1",
+            Keywords: "test",
+            Thumbnail: ""
+        },
+        {
+            ClipId:2,
+            Name: "Clip2",
+            Keywords: "test",
+            Thumbnail: ""
+        },
+        {
+            ClipId:3,
+            Name: "Clip3",
+            Keywords: "test",
+            Thumbnail: ""
+        }*/
+            ]);
     const [searchVideo, setSearchVideo] = useState('');
+    const [loading, setLoading] = useState(true);
+
+
+
+   useEffect(() => {
+        axios.get("/api/Clip/")
+            .then(function (res) {
+                console.log(res);
+               let fetchedClips = [];
+                for ( let key in res.data ) {
+                    fetchedClips.push( {
+                        ...res.data[key]
+                    } );
+                }
+                setVideos(fetchedClips); 
+                console.log(fetchedClips);   
+                setLoading(false);
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+
+    },[]);
    
  
 
-    const clicked = () => {
-        console.log("video clicked");
-    };
-
+ 
     const onSearchChange = (event) => {
         console.log(event.target.value);
         setSearchVideo(event.target.value);
@@ -25,8 +67,8 @@ const home = props => {
 
 
 
-    const videoList = videos.length > 0 ? videos.map(video =>
-            <VideoItem clicked={clicked} video={video} key={video}/>
+    let videoList = loading ? <Loader/> : videos.length > 0 ? videos.map(video =>
+            <VideoItem video={video} key={video.ClipId}/>
         ) : <p>Upload video!</p>
         
 
@@ -35,7 +77,7 @@ const home = props => {
             <Header title="Home"/>
             <SearchBox searchField={searchVideo} searchChange={onSearchChange} submit={searchHandler}/>
           
-        <div className="videoList">
+         <div className="videoList">
             {videoList}
         </div>
            
