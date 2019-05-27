@@ -1,6 +1,8 @@
 .videoItem {
     display: inline-block;
     padding: 10px;
+    border: 1px solid #ddd;
+    text-decoration: none;
 }
 
 .videoItem img {

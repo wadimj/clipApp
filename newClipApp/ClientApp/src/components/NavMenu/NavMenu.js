@@ -19,11 +19,7 @@ export default props => (
             <Glyphicon glyph='list' /> Home
           </NavItem>
         </LinkContainer>
-        <LinkContainer to={'/player'}>
-          <NavItem>
-            <Glyphicon glyph='play' /> Player
-          </NavItem>
-        </LinkContainer>
+        
         <LinkContainer to={'/upload'}>
           <NavItem>
             <Glyphicon glyph='upload' /> Upload

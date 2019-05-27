@@ -8,7 +8,7 @@ import Player from './containers/Player/Player';
 export default () => (
   <Layout>
     <Route exact path='/' component={Home} />
-    <Route exact path='/player' component={Player} />
+    <Route exact path='/player/:clipId' component={Player} />
     <Route path='/upload' component={Upload} />
   </Layout>
 );

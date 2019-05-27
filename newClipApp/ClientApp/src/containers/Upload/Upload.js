@@ -1,6 +1,7 @@
 
 import React from 'react'
 import axios from 'axios';
+import Loader from './../../components/Loader/Loader';
 import './Upload.css';
 import Header from './../../components/Header/Header';
 
@@ -12,12 +13,16 @@ class Upload extends React.Component {
       file: null,
       name: null,
       keywords: null,
-      thubmnail: null
+      thumbnail: null,
+      loading:false
     };
   }
 
+
+
   submit(event){
     event.preventDefault();
+    this.setState({ loading: true });
     var self = this;
     var apiBaseUrl =  "/api/Upload/Video";
     if(this.state.file){
@@ -27,8 +32,13 @@ class Upload extends React.Component {
         f.append("Keywords",this.state.keywords )
         axios.post(apiBaseUrl, f, {
                headers: {'Content-Type': 'multipart/form-data'}
-        });
-        alert("File upload started");
+        }).then(function (res) {
+          this.setState({ loading: false });
+      })
+      .catch(function (error) {
+          console.log(error);
+      });
+      window.location.href = '/'
     }
     else{
         alert("Please select files first");
@@ -54,6 +64,7 @@ class Upload extends React.Component {
         <input value={this.state.keywords} onChange={e => this.setKeywords(e)} placeholder="Keywords (comma separated)" />
         <input type="file" accept="video/*" onChange={e => this.setFile(e)} />
         <button type="submit">Upload</button>
+        {this.state.loading ? <Loader/> : null}
       </form>
       </div>
     );

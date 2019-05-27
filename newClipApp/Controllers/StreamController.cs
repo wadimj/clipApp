@@ -18,17 +18,19 @@ namespace newClipApp.Controllers
     public class StreamController : Controller
     {
         private readonly IHostingEnvironment _env;
+        private IClipRepository _clipRepository;
 
-        public StreamController(IHostingEnvironment env)
+        public StreamController(IHostingEnvironment env, IClipRepository clipRepository)
         {
             _env = env;
+            _clipRepository = clipRepository;
         }
 
         [HttpGet("{id}")]
         public IActionResult Stream(int id)
         {
-            string uploadDir = Path.Combine(_env.ContentRootPath, "uploads");
-            var path = Path.Combine(uploadDir, "sample.mp4");
+            var clip = _clipRepository.FindByCondition(x => x.ClipId.Equals(id)).FirstOrDefault();
+            string path = Path.Combine(_env.ContentRootPath, clip.FilePath.Substring(1));
             return PhysicalFile(path, "application/octet-stream");
         }
     }
