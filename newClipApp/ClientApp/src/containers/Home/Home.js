@@ -33,36 +33,49 @@ const home = props => {
 
 
 
-   useEffect(() => {
+   useEffect(() => {    
+        fetchVideos();
+    },[]);
+   
+ 
+    const fetchVideos = () => {
+        setLoading(true);
         axios.get("/api/Clip/")
             .then(function (res) {
-                console.log(res);
                let fetchedClips = [];
                 for ( let key in res.data ) {
                     fetchedClips.push( {
                         ...res.data[key]
                     } );
                 }
-                setVideos(fetchedClips); 
-                console.log(fetchedClips);   
+                setVideos(fetchedClips);  
                 setLoading(false);
             })
             .catch(function (error) {
                 console.log(error);
             })
-
-    },[]);
-   
- 
-
+    }
  
     const onSearchChange = (event) => {
-        console.log(event.target.value);
         setSearchVideo(event.target.value);
     };
 
     const searchHandler = () => {
-        console.log("database filter");
+        setLoading(true);
+        axios.get('/api/Clip/search/' + searchVideo)
+            .then(function (res) {
+               let fetchedClips = [];
+                for ( let key in res.data ) {
+                    fetchedClips.push( {
+                        ...res.data[key]
+                    } );
+                }
+                setVideos(fetchedClips);  
+                setLoading(false);
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
     };
 
 
@@ -75,7 +88,7 @@ const home = props => {
     return (
         <div className="container">
             <Header title="Home"/>
-            <SearchBox searchField={searchVideo} searchChange={onSearchChange} submit={searchHandler}/>
+            <SearchBox searchField={searchVideo} searchChange={onSearchChange} submit={searchHandler} clear={fetchVideos}/>
           
          <div className="videoList">
             {videoList}
